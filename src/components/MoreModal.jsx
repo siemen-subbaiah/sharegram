@@ -1,0 +1,91 @@
+import axios from 'axios';
+import React, { useEffect, useState, useContext } from 'react';
+import Modal from 'react-modal';
+import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
+import { AuthContext } from '../context/AuthState';
+import { useFetch } from '../hooks/useFetch';
+
+const MoreModal = ({ closeModal, modalIsOpen, postId }) => {
+  const navigate = useNavigate();
+
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    setWindowWidth(window.screen.width);
+  }, []);
+
+  const { user: token } = useContext(AuthContext);
+  const data2 = useFetch('user', `${API_URL}/users/me`, token);
+
+  const deletePostFunc = async () => {
+    try {
+      const res = await axios.delete(`${API_URL}/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.statusText) {
+        closeModal();
+        navigate('/profile');
+      }
+      return res.data;
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const queryClient = useQueryClient();
+  const { mutate: deletePost } = useMutation(deletePostFunc, {
+    onSuccess: () => queryClient.invalidateQueries('posts'),
+  });
+
+  const handleDeletePost = () => {
+    const prompt = window.confirm('Are you sure you want to delete this post?');
+
+    if (prompt) {
+      deletePost();
+    }
+  };
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      width: `${windowWidth <= 500 ? '90%' : '20%'}`,
+    },
+    overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0,0,0,.80)',
+    },
+  };
+
+  return (
+    <Modal
+      isOpen={modalIsOpen}
+      onRequestClose={closeModal}
+      style={customStyles}
+      ariaHideApp={false}
+      contentLabel='More Modal'
+    >
+      <h1 className='text-center'>More</h1>
+      <hr />
+      <ul className='text-center'>
+        <li className='my-4 cursor-pointer' onClick={handleDeletePost}>
+          Delete Post
+        </li>
+      </ul>
+    </Modal>
+  );
+};
+
+export default MoreModal;
