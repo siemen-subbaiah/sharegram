@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthState';
 import googleIcon from '../images/google.png';
 import githubIcon from '../images/github.png';
+import { IoMdAlert } from 'react-icons/io';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -102,6 +103,10 @@ const LoginPage = () => {
               </div>
             </div>
           </form>
+          <span className='md:text-center flex items-center gap-2 justify-center my-1'>
+            <IoMdAlert fontSize='1.1rem' className='hidden md:block' />
+            <p>The initial request may take some time</p>
+          </span>
           <p className='my-5'>
             No account?{' '}
             <Link to='/account/register' className='underline'>
