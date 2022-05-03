@@ -5,9 +5,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
 import { AuthContext } from '../context/AuthState';
-import { useFetch } from '../hooks/useFetch';
 
-const MoreModal = ({ closeModal, modalIsOpen, postId }) => {
+const MoreModal = ({ closeModal, modalIsOpen, postId, photoId }) => {
   const navigate = useNavigate();
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -17,7 +16,20 @@ const MoreModal = ({ closeModal, modalIsOpen, postId }) => {
   }, []);
 
   const { user: token } = useContext(AuthContext);
-  const data2 = useFetch('user', `${API_URL}/users/me`, token);
+
+  const deleteImgFunc = async (id) => {
+    try {
+      const res = await axios.delete(`${API_URL}/upload/files/${photoId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setImage(null);
+      return res.data;
+    } catch (err) {
+      return err;
+    }
+  };
 
   const deletePostFunc = async () => {
     try {
@@ -40,12 +52,16 @@ const MoreModal = ({ closeModal, modalIsOpen, postId }) => {
   const { mutate: deletePost } = useMutation(deletePostFunc, {
     onSuccess: () => queryClient.invalidateQueries('posts'),
   });
+  const { mutate: deleteImg } = useMutation(deleteImgFunc, {
+    onSuccess: () => queryClient.invalidateQueries('user'),
+  });
 
   const handleDeletePost = () => {
     const prompt = window.confirm('Are you sure you want to delete this post?');
 
     if (prompt) {
       deletePost();
+      deleteImg();
     }
   };
 

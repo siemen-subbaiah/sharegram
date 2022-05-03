@@ -26,13 +26,21 @@ const Posts = () => {
   return (
     <>
       <div className='flex justify-center mb-20 md:mt-10 flex-col items-center'>
-        {posts?.length === 0 ? (
+        {posts?.length === 0 && (
           <div className='my-5 flex justify-center flex-col items-center'>
             <img src={noPost} alt='no-post' height={300} width={300} />
             <p className='my-8 text-2xl'>No posts to show</p>
           </div>
-        ) : (
-          posts?.map((item) => (
+        )}
+        {posts?.map((item) =>
+          data.isLoading === true ? (
+            <img
+              src='https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png'
+              alt='loading'
+              height={500}
+              width={500}
+            />
+          ) : (
             <Post
               item={item}
               key={item?.id}
@@ -41,7 +49,7 @@ const Posts = () => {
               loading={data.isLoading}
               saveds={data2?.data.saveds}
             />
-          ))
+          )
         )}
       </div>
     </>

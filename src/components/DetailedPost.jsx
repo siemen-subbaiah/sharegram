@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { MdAccountCircle } from 'react-icons/md';
+import { MdAccountCircle, MdOutlineCancel } from 'react-icons/md';
 import { BiEdit } from 'react-icons/bi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { Link, useParams } from 'react-router-dom';
@@ -137,8 +137,7 @@ const DetailedPost = () => {
         </title>
         <meta name='description' content={arrData[0]?.caption} />
         <meta property='og:type' content='website' />
-        {/* ! CHANGE THIS URL !TODO */}
-        <meta property='og:url' content='https://www.sharegram.tech/' />
+        <meta property='og:url' content='https://share-gram.netlify.app/' />
         <meta property='og:title' content='Sharegram' />
         <meta property='og:description' content={`${arrData[0]?.caption}`} />
         <meta property='og:image' content={arrData[0]?.photo?.url} />
@@ -193,12 +192,23 @@ const DetailedPost = () => {
                     <>
                       {data2.data?.id === item?.user?.id && (
                         <div className='flex items-center gap-1 cursor-pointer'>
-                          <BiEdit
-                            fontSize='1.1rem'
-                            onClick={() => {
-                              handleEditing(item?.comment, item?.id);
-                            }}
-                          />
+                          {editing === false ? (
+                            <BiEdit
+                              fontSize='1.1rem'
+                              onClick={() => {
+                                handleEditing(item?.comment, item?.id);
+                              }}
+                            />
+                          ) : (
+                            <MdOutlineCancel
+                              fontSize='1.1rem'
+                              className='cursor-pointer'
+                              onClick={() => {
+                                setEditing(false);
+                                setComment('');
+                              }}
+                            />
+                          )}
                           <RiDeleteBinLine
                             fontSize='1.1rem'
                             onClick={() => handleDeleting(item?.id)}

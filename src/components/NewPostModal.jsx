@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Modal from 'react-modal';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { MdOutlineAddPhotoAlternate } from 'react-icons/md';
 import { AuthContext } from '../context/AuthState';
 import { useMutation, useQueryClient } from 'react-query';
 import { RiDeleteBinLine } from 'react-icons/ri';
@@ -17,6 +17,8 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
 
   const [image, setImage] = useState();
   const [caption, setCaption] = useState('');
+
+  const types = ['image/png', 'image/jpg', 'image/jpeg'];
 
   useEffect(() => {
     setWindowWidth(window.screen.width);
@@ -75,36 +77,43 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
   const { mutate: uploadImg, isLoading: isLoadingImg } = useMutation(
     uploadImgFunc,
     {
-      onSuccess: () => queryClient.invalidateQueries('post-image'),
+      onSuccess: () => queryClient.invalidateQueries('user'),
     }
   );
 
   const { mutate: deleteImg, isLoading: isLoadingDeleteImg } = useMutation(
     deleteImgFunc,
     {
-      onSuccess: () => queryClient.invalidateQueries('post-image'),
+      onSuccess: () => queryClient.invalidateQueries('user'),
     }
   );
 
   const { mutate: uploadPost, isLoading } = useMutation(uploadPostFunc, {
-    onSuccess: () => queryClient.invalidateQueries('posts'),
+    onSuccess: () => queryClient.invalidateQueries('user'),
   });
 
   const handleFinalUpload = (e) => {
     e.preventDefault();
     if (caption && image) {
       uploadPost({ photo: image, caption, user: { id: data2.data?.id } });
+      setCaption('');
     } else {
       alert('Please add both image and the caption');
     }
   };
 
   const handleFileChange = (e) => {
-    const formData = new FormData();
-    formData.append('files', e.target.files[0]);
-    formData.append('ref', 'images');
-    formData.append('field', 'image');
-    uploadImg(formData);
+    const selected = e.target.files[0];
+
+    if (selected && types.includes(selected.type)) {
+      const formData = new FormData();
+      formData.append('files', selected);
+      formData.append('ref', 'images');
+      formData.append('field', 'image');
+      uploadImg(formData);
+    } else {
+      alert('PLEASE SELECT (jpg,png or jpeg)');
+    }
   };
 
   const handleImgDelete = (id) => {
@@ -112,6 +121,7 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
 
     if (prompt) {
       deleteImg(id);
+      setCaption('');
     }
   };
 
@@ -163,7 +173,7 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
                   width={500}
                 />
                 <button
-                  className='bg-red-500 my-2 flex gap-2 items-center text-white p-1 rounded-md'
+                  className='bg-red-500 my-2 flex gap-1 items-center text-white p-1 rounded-md'
                   onClick={() => handleImgDelete(image[0]?.id)}
                 >
                   <RiDeleteBinLine fontSize='1.1rem' />
@@ -204,10 +214,8 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
             </>
           ) : (
             <>
-              <p className='text-md'>Drag photos here</p>
-              <p>(or)</p>
-              <label for='file-input' className='cursor-pointer my-2'>
-                <AiOutlinePlusCircle fontSize='3rem' />
+              <label htmlFor='file-input' className='cursor-pointer my-2'>
+                <MdOutlineAddPhotoAlternate fontSize='2.5rem' color='#892CDC' />
               </label>
 
               <input

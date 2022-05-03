@@ -46,13 +46,13 @@ const ExplorePage = () => {
             </div>
           ) : (
             <Masonry
-              className='flex mb-20'
+              className='flex mb-20 gap-1'
               breakpointCols={breakpointColumnsObj}
             >
               {publicPosts?.map((image) => (
                 <Link to={`/post/${image?.id}`} key={image?.id}>
                   <img
-                    className='my-2'
+                    className='my-1'
                     src={image?.photo?.url}
                     alt={image?.caption}
                     height={300}

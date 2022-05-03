@@ -1,5 +1,9 @@
 import { useContext, useState } from 'react';
-import { MdOutlineAccountCircle, MdOutlineMoreHoriz } from 'react-icons/md';
+import {
+  MdOutlineAccountCircle,
+  MdOutlineMoreHoriz,
+  MdOutlineCancel,
+} from 'react-icons/md';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BiShareAlt, BiEdit } from 'react-icons/bi';
 import { BsFillBookmarkFill, BsBookmark } from 'react-icons/bs';
@@ -295,14 +299,26 @@ const Post = ({ item, userId, username, loading, saveds }) => {
               <p>{item?.caption}</p>
             )}
             {item?.user?.id === userId && (
-              <BiEdit
-                fontSize='1.2rem'
-                className='cursor-pointer'
-                onClick={() => {
-                  setCaptionEdit(true);
-                  setCaption(item?.caption);
-                }}
-              />
+              <>
+                {captionEdit === false ? (
+                  <BiEdit
+                    fontSize='1.2rem'
+                    className='cursor-pointer'
+                    onClick={() => {
+                      setCaptionEdit(true);
+                      setCaption(item?.caption);
+                    }}
+                  />
+                ) : (
+                  <MdOutlineCancel
+                    fontSize='1.5rem'
+                    className='cursor-pointer'
+                    onClick={() => {
+                      setCaptionEdit(false);
+                    }}
+                  />
+                )}
+              </>
             )}
           </div>
           <p className='mt-3 text-gray-400 text-sm'>
@@ -318,13 +334,14 @@ const Post = ({ item, userId, username, loading, saveds }) => {
       <ShareModal
         closeModal={closeShareModal}
         modalIsOpen={shareModalIsOpen}
-        link={`http://localhost:3000/post/${item?.id}`}
+        link={`https://share-gram.netlify.app/post/${item?.id}`}
         caption={item?.caption}
       />
       <MoreModal
         closeModal={closeMoreModal}
         modalIsOpen={moreModalIsOpen}
         postId={item?.id}
+        photoId={item?.photo?.id}
       />
     </>
   );

@@ -11,10 +11,22 @@ import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
 import Helmet from 'react-helmet';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const SettingsPage = () => {
   const [active, setActive] = useState(0);
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const types = ['image/png', 'image/jpg', 'image/jpeg'];
+
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [showPassword3, setShowPassword3] = useState(false);
 
   const navigate = useNavigate();
 
@@ -30,8 +42,9 @@ const SettingsPage = () => {
   useEffect(() => {
     setUsername(data?.data?.username);
     setEmail(data?.data?.email);
-    setBio(data?.data?.bio);
-    setLink(data?.data?.link);
+    setBio(data?.data?.bio || '');
+    setLink(data?.data?.link || '');
+    setImage(data?.data?.picture || null);
   }, []);
 
   const updateFunc = async (theData) => {
@@ -45,6 +58,9 @@ const SettingsPage = () => {
           },
         }
       );
+      if (res.statusText) {
+        alert('Profile updated successfully!');
+      }
       return res.data;
     } catch (err) {
       return err;
@@ -65,6 +81,28 @@ const SettingsPage = () => {
     }
   };
 
+  const changePasswordFunc = async (theData) => {
+    try {
+      const res = await axios.post(
+        `${API_URL}/custom/change-password`,
+        theData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.statusText) {
+        alert('Please log back in with the new password!');
+        logout();
+        navigate('/');
+      }
+      return res.data;
+    } catch (error) {
+      alert(error.response?.data?.message);
+    }
+  };
+
   const queryClient = useQueryClient();
 
   const { mutate: updateProile, isLoading } = useMutation(updateFunc, {
@@ -78,17 +116,37 @@ const SettingsPage = () => {
     }
   );
 
+  const { mutate: changePassword, isLoading: isLoadingChangePassword } =
+    useMutation(changePasswordFunc, {
+      onSuccess: () => queryClient.invalidateQueries('user'),
+    });
+
   const handleProfileEdit = (e) => {
     e.preventDefault();
     updateProile({ picture: image, username, email, bio, link });
   };
 
   const handleFileChange = (e) => {
-    const formData = new FormData();
-    formData.append('files', e.target.files[0]);
-    formData.append('ref', 'images');
-    formData.append('field', 'image');
-    uploadImg(formData);
+    const selected = e.target.files[0];
+    if (selected && types.includes(selected.type)) {
+      setImagePreview(selected);
+      const formData = new FormData();
+      formData.append('files', selected);
+      formData.append('ref', 'images');
+      formData.append('field', 'image');
+      uploadImg(formData);
+    } else {
+      alert('PLEASE SELECT (jpg,png or jpeg)');
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
+    if (newPassword === confirmNewPassword) {
+      changePassword({ currentPassword, newPassword, confirmNewPassword });
+    } else {
+      alert('password doesnt match');
+    }
   };
 
   return (
@@ -129,10 +187,10 @@ const SettingsPage = () => {
 
                     {isLoadingImg === true ? (
                       <Spinner />
-                    ) : image ? (
+                    ) : imagePreview ? (
                       <label htmlFor='file-input' className='cursor-pointer'>
                         <img
-                          src={image[0]?.url}
+                          src={URL.createObjectURL(imagePreview)}
                           alt='profile-pic'
                           height={170}
                           width={170}
@@ -210,7 +268,7 @@ const SettingsPage = () => {
                         disabled
                         className='bg-primary opacity-50 text-white p-1 rounded-md md:w-2/4 w-full'
                       >
-                        loadng...
+                        loading...
                       </button>
                     ) : (
                       <button className='bg-primary text-white p-1 rounded-md md:w-2/4 w-full'>
@@ -231,24 +289,103 @@ const SettingsPage = () => {
                   </div>
                 </form>
               ) : (
-                <>
+                <form onSubmit={handlePasswordChange}>
                   <div className='grid md:grid-cols-2 grid-cols-1 gap-5 items-center my-10'>
-                    <p className='md:text-xl'>Old Password</p>
+                    <p className='md:text-xl'>Current Password</p>
                     <input
-                      type='text'
+                      type={showPassword1 ? 'text' : 'password'}
                       name='name'
                       className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
                     />
+                    {currentPassword.length >= 1 ? (
+                      !showPassword1 ? (
+                        <AiFillEye
+                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer'
+                          fontSize='1.2rem'
+                          onClick={() => setShowPassword1(!showPassword1)}
+                        />
+                      ) : (
+                        <AiFillEyeInvisible
+                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer'
+                          fontSize='1.2rem'
+                          onClick={() => setShowPassword1(!showPassword1)}
+                        />
+                      )
+                    ) : (
+                      ''
+                    )}
                   </div>
                   <div className='grid md:grid-cols-2 grid-cols-1 gap-5 items-center my-10'>
                     <p className='md:text-xl'>New Password</p>
                     <input
-                      type='email'
+                      type={showPassword2 ? 'text' : 'password'}
                       name='email'
                       className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                     />
+                    {newPassword.length >= 1 ? (
+                      !showPassword2 ? (
+                        <AiFillEye
+                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer'
+                          fontSize='1.2rem'
+                          onClick={() => setShowPassword2(!showPassword2)}
+                        />
+                      ) : (
+                        <AiFillEyeInvisible
+                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer'
+                          fontSize='1.2rem'
+                          onClick={() => setShowPassword2(!showPassword2)}
+                        />
+                      )
+                    ) : (
+                      ''
+                    )}
                   </div>
-                </>
+                  <div className='grid md:grid-cols-2 grid-cols-1 gap-5 items-center my-10'>
+                    <p className='md:text-xl'>Confirm Password</p>
+                    <input
+                      type={showPassword3 ? 'text' : 'password'}
+                      name='email'
+                      className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    />
+                    {confirmNewPassword.length >= 1 ? (
+                      !showPassword3 ? (
+                        <AiFillEye
+                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer'
+                          fontSize='1.2rem'
+                          onClick={() => setShowPassword3(!showPassword3)}
+                        />
+                      ) : (
+                        <AiFillEyeInvisible
+                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer'
+                          fontSize='1.2rem'
+                          onClick={() => setShowPassword3(!showPassword3)}
+                        />
+                      )
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                  <div className='flex justify-end'>
+                    {isLoadingChangePassword === true ? (
+                      <button
+                        disabled
+                        className='bg-primary opacity-50 text-white p-1 rounded-md md:w-2/4 w-full'
+                      >
+                        loading...
+                      </button>
+                    ) : (
+                      <button className='bg-primary text-white p-1 rounded-md md:w-2/4 w-full outline-none'>
+                        Update
+                      </button>
+                    )}
+                  </div>
+                </form>
               )}
             </div>
           </div>
