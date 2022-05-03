@@ -152,7 +152,7 @@ const SettingsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Settings</title>
+        <title>Settings | ShareGram</title>
       </Helmet>
       <div className='grid md:grid-cols-12 grid-cols-1'>
         <section className='hidden md:block md:col-span-2'>

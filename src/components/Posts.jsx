@@ -4,6 +4,7 @@ import { API_URL } from '../config';
 import { AuthContext } from '../context/AuthState';
 import { useFetch } from '../hooks/useFetch';
 import noPost from '../images/noPost.svg';
+import { MdOutlineAccountCircle } from 'react-icons/md';
 
 const Posts = () => {
   const { user: token } = useContext(AuthContext);
@@ -32,25 +33,35 @@ const Posts = () => {
             <p className='my-8 text-2xl'>No posts to show</p>
           </div>
         )}
-        {posts?.map((item) =>
-          data.isLoading === true ? (
-            <img
-              src='https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png'
-              alt='loading'
-              height={500}
-              width={500}
-            />
-          ) : (
-            <Post
-              item={item}
-              key={item?.id}
-              userId={data2.data?.id}
-              username={data2.data?.username}
-              loading={data.isLoading}
-              saveds={data2?.data.saveds}
-            />
-          )
-        )}
+        {posts?.map((item) => (
+          <>
+            {data.isLoading === true ? (
+              <section className='bg-white shadow-2xl my-4'>
+                <div className='p-3'>
+                  <MdOutlineAccountCircle
+                    fontSize='1.5rem'
+                    className='cursor-pointer'
+                  />
+                </div>
+                <img
+                  src='https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png'
+                  alt='loading'
+                  height={500}
+                  width={500}
+                />
+              </section>
+            ) : (
+              <Post
+                item={item}
+                key={item?.id}
+                userId={data2.data?.id}
+                username={data2.data?.username}
+                loading={data.isLoading}
+                saveds={data2?.data.saveds}
+              />
+            )}
+          </>
+        ))}
       </div>
     </>
   );

@@ -32,7 +32,7 @@ const ExplorePage = () => {
   return (
     <>
       <Helmet>
-        <title>Explore</title>
+        <title>ShareGram | Explore</title>
       </Helmet>
       <div className='grid md:grid-cols-12 grid-cols-1'>
         <section className='hidden md:block md:col-span-2'>
