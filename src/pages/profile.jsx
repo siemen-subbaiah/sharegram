@@ -224,7 +224,7 @@ const ProfilePage = () => {
           )}
           <div className='hidden md:block'>
             {savedToggle === 0 ? (
-              <Saved pics={arrData[0]?.saveds} />
+              <Saved pics={data2.data?.saveds} />
             ) : (
               <Photos pics={arrData[0]?.posts} />
             )}
@@ -232,7 +232,7 @@ const ProfilePage = () => {
         </section>
         <div className='block md:hidden'>
           {savedToggle === 0 ? (
-            <Saved pics={arrData[0]?.saveds} />
+            <Saved pics={data2.data?.saveds} />
           ) : (
             <Photos pics={arrData[0]?.posts} />
           )}

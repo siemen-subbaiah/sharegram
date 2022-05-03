@@ -67,7 +67,7 @@ const ShareModal = ({ closeModal, modalIsOpen, link, caption }) => {
         <li className='my-4'>
           {windowWidth <= 500 ? (
             <a
-              href={`/whatsapp://send?text=${link}`}
+              href={`whatsapp://send?text=${link}`}
               data-action='share/whatsapp/share'
               target='_blank'
             >

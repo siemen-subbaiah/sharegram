@@ -30,7 +30,7 @@ const Post = ({ item, userId, username, loading, saveds }) => {
   const [captionEdit, setCaptionEdit] = useState(false);
 
   const checkLiked = item?.likes.find((item) => item?.user?.id === userId);
-  const checkSaved = saveds?.find((fi) => fi?.postId === item?.id);
+  const checkSaved = saveds?.find((fi) => fi?.post?.id === item?.id);
 
   const { user: token } = useContext(AuthContext);
 
@@ -145,14 +145,12 @@ const Post = ({ item, userId, username, loading, saveds }) => {
     unLikePost();
   };
 
-  const handleSaving = (url, postId) => {
+  const handleSaving = (post) => {
     savePost({
-      image: url,
-      username: username,
       user: {
         id: userId,
       },
-      postId,
+      post,
     });
   };
 
@@ -248,7 +246,7 @@ const Post = ({ item, userId, username, loading, saveds }) => {
               <BsBookmark
                 fontSize='1.5rem'
                 className='cursor-pointer'
-                onClick={() => handleSaving(item?.photo?.url, item.id)}
+                onClick={() => handleSaving(item)}
               />
             )}
           </div>

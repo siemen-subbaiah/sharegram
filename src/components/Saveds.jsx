@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import emptyImg from '../images/empty.svg';
 
 const Saved = ({ pics }) => {
+  console.log(pics);
+
   return (
     <div className='mb-20'>
       {pics.length === 0 ? (
@@ -13,8 +15,10 @@ const Saved = ({ pics }) => {
         <section className='grid grid-cols-3 md:my-3 place-items-center md:gap-y-5'>
           {pics?.map((item, i) => {
             return (
-              <Link to={`/post/${item?.postId}`} className='bg-white' key={i}>
-                <img src={item?.image} height={300} width={300} />
+              <Link to={`/post/${item?.post?.id}`} className='bg-white' key={i}>
+                {item?.post?.photo && (
+                  <img src={item?.post?.photo?.url} height={300} width={300} />
+                )}
               </Link>
             );
           })}
