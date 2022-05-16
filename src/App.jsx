@@ -33,18 +33,14 @@ const App = () => {
           <Route path='/account/login' element={<LoginPage />} />
           <Route path='/account/register' element={<RegisterPage />} />
           <Route
+            path='/connect/:providerName/redirect'
+            element={<LoginRedirect />}
+          />
+          <Route
             path='/'
             element={
               <ProtectedRoute>
                 <IndexPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/connect/:providerName/redirect'
-            element={
-              <ProtectedRoute>
-                <LoginRedirect />
               </ProtectedRoute>
             }
           />
