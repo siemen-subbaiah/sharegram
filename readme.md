@@ -4,7 +4,7 @@ A social media web app where users can follow, upload, like, save and post a com
 
 [Demo](https://share-gram.netlify.app)
 
-![ShareGram](https://user-images.githubusercontent.com/62604902/166519818-1a602e76-ad71-48d5-97f5-6d63f247dc6f.png)
+![ShareGram](https://user-images.githubusercontent.com/62604902/168560442-7a638ce4-6bdd-4fc8-b834-a029f4cb4453.png)
 
 ## Tech Stack
 
