@@ -4,6 +4,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { CgDarkMode } from 'react-icons/cg';
 import NewPostModal from './NewPostModal';
 import { AuthContext } from '../context/AuthState';
+import SearchComp from './SearchComp';
 
 const NavBar = ({ changeTheme }) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -17,9 +18,12 @@ const NavBar = ({ changeTheme }) => {
   return (
     <>
       <nav className='bg-primary text-white p-3 md:p-4 flex items-center md:flex-row flex-col justify-between md:static sticky top-0'>
-        <Link to='/'>
-          <h1 className='md:px-5 md:text-3xl text-[1.6rem]'>ShareGram</h1>
-        </Link>
+        <div className='flex items-center gap-7'>
+          <Link to='/'>
+            <h1 className='md:px-5 md:text-3xl text-[1.6rem]'>ShareGram</h1>
+          </Link>
+          <div className='relative top-1'>{/* <SearchComp /> */}</div>
+        </div>
         <div className='flex'>
           <CgDarkMode
             onClick={changeTheme}

@@ -206,7 +206,13 @@ const Post = ({ item, userId, username, loading, saveds }) => {
               width={500}
             />
           ) : (
-            <img src={item?.photo?.url} alt='post' height={500} width={500} />
+            <img
+              src={item?.photo?.url}
+              alt='post'
+              height={550}
+              width={550}
+              loading='lazy'
+            />
           )}
         </Link>
         <div className='mt-3 p-3'>

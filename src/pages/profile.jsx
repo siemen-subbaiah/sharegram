@@ -144,8 +144,8 @@ const ProfilePage = () => {
                         >
                           Edit profile
                         </Link>
-                      ) : following.includes(arrData[0]?.id) &&
-                        arrData.length >= 1 ? (
+                      ) : following?.includes(arrData[0]?.id) &&
+                        arrData?.length >= 1 ? (
                         <span
                           className='btn flex items-center gap-1 cursor-pointer'
                           onClick={handleUnFollow}

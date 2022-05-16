@@ -5,6 +5,7 @@ import {
   MdOutlineExplore,
   MdOutlineAccountCircle,
   MdOutlineSettings,
+  MdSearch,
 } from 'react-icons/md';
 
 import { RiLogoutCircleLine } from 'react-icons/ri';
@@ -39,6 +40,17 @@ const SideBar = () => {
           >
             <MdOutlineExplore fontSize='1.5rem' />
             <span>Explore</span>
+          </Link>
+        </li>
+        <li className='my-16'>
+          <Link
+            to='/search'
+            className={`${
+              pathname === '/search' && 'btn'
+            } flex items-center w-[7.5rem] gap-2`}
+          >
+            <MdSearch fontSize='1.5rem' />
+            <span>Search</span>
           </Link>
         </li>
         <li className='my-16'>

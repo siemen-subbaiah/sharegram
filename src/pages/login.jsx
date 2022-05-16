@@ -32,7 +32,7 @@ const LoginPage = () => {
   }, [isError, errorData]);
 
   return (
-    <div className='container px-4 md:px-20 mx-auto'>
+    <div className='container px-4 md:px-20 mx-auto h-screen'>
       <div className='grid grid-cols-1 md:grid-cols-2 items-center my-10'>
         <img
           src={loginImg}
@@ -72,7 +72,7 @@ const LoginPage = () => {
             >
               {loading ? 'Loading...' : 'LOGIN'}
             </button>
-            <div className='flex justify-around gap-5'>
+            <div className='md:flex justify-around gap-5'>
               <div className='my-5 flex w-full border'>
                 <a
                   href='https://sharegram-backend.herokuapp.com/connect/github'
@@ -95,8 +95,8 @@ const LoginPage = () => {
                   <img
                     src={googleIcon}
                     alt='google-login'
-                    height={20}
-                    width={20}
+                    height={19}
+                    width={19}
                   />
                   LOGIN with GOOGLE
                 </a>

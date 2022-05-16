@@ -1,19 +1,18 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import {
   MdOutlineHome,
   MdOutlineExplore,
   MdOutlineAccountCircle,
   MdOutlineSettings,
+  MdSearch,
 } from 'react-icons/md';
 
 const BottomBar = () => {
-  const { pathname } = useLocation();
-
   return (
     <footer className='bg-primary fixed w-full bottom-0 p-3 text-white'>
-      <ul className='flex items-center justify-center gap-10'>
+      <ul className='flex items-center justify-center gap-6'>
         <li>
           <Link to='/' className={`flex flex-col items-center text-xs`}>
             <MdOutlineHome fontSize='1.5rem' />
@@ -24,6 +23,12 @@ const BottomBar = () => {
           <Link to='/explore' className={`flex flex-col items-center text-xs`}>
             <MdOutlineExplore fontSize='1.4rem' />
             <span>Explore</span>
+          </Link>
+        </li>
+        <li>
+          <Link to='/search' className={`flex flex-col items-center text-xs`}>
+            <MdSearch fontSize='1.4rem' />
+            <span>Search</span>
           </Link>
         </li>
         <li>

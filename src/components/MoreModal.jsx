@@ -100,7 +100,7 @@ const MoreModal = ({ closeModal, modalIsOpen, postId, photoId }) => {
       contentLabel='More Modal'
     >
       <h1 className='text-center text-xl mb-5 font-semibold'>More</h1>
-      <hr />
+      {/* <hr /> */}
       <ul className='text-center'>
         <li className='my-4 cursor-pointer' onClick={handleDeletePost}>
           Delete Post

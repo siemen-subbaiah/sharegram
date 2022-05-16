@@ -57,6 +57,7 @@ const ExplorePage = () => {
                     alt={image?.caption}
                     height={300}
                     width={300}
+                    loading='lazy'
                   />
                 </Link>
               ))}

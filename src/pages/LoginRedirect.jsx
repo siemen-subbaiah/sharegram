@@ -37,7 +37,7 @@ const LoginRedirect = () => {
 
   return (
     <div>
-      <p className='text-center'>
+      <p className='text-center h-screen'>
         {isError ? 'error occure' : 'redirecting...'}
       </p>
     </div>

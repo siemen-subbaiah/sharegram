@@ -17,11 +17,12 @@ const Photos = ({ pics }) => {
         <section className='grid grid-cols-3 md:my-3 place-items-center md:gap-y-5 gap-1 md:gap-0'>
           {createdPics?.map((item, i) => {
             return (
-              <Link to={`/post/${item?.id}`} className='bg-white' key={i}>
+              <Link to={`/post/${item?.id}`} key={i}>
                 <img
                   src={item?.photo?.url}
                   alt={item?.caption}
                   height={300}
+                  loading='lazy'
                   width={300}
                 />
               </Link>

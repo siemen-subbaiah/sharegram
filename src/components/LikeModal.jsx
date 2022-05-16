@@ -45,7 +45,7 @@ const LikeModal = ({ closeModal, modalIsOpen, likes }) => {
       contentLabel='following Modal'
     >
       <h1 className='text-center text-xl mb-5 font-semibold'>Likes</h1>
-      <hr />
+      {/* <hr /> */}
       {likes?.map((item) => {
         return (
           <Link
