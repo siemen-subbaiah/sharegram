@@ -125,6 +125,10 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
     }
   };
 
+  const themeColor = localStorage.getItem('theme')
+    ? localStorage.getItem('theme')
+    : '#1F2937';
+
   const customStyles = {
     content: {
       top: '50%',
@@ -138,6 +142,8 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
+      backgroundColor: themeColor === 'dark' ? '#1F2937' : 'white',
+      color: themeColor === 'dark' ? 'white' : 'black',
     },
     overlay: {
       position: 'fixed',
@@ -185,7 +191,7 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
                   type='text'
                   name='caption'
                   placeholder='Enter the caption'
-                  className='p-2 shadow-2xl outline-none rounded-l-md'
+                  className='p-2 shadow-2xl outline-none rounded-l-md text-black'
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
                 />

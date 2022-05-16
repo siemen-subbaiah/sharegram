@@ -2,8 +2,6 @@ import { Link } from 'react-router-dom';
 import emptyImg from '../images/empty.svg';
 
 const Saved = ({ pics }) => {
-  console.log(pics);
-
   return (
     <div className='mb-20'>
       {pics.length === 0 ? (

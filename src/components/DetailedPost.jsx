@@ -228,7 +228,7 @@ const DetailedPost = () => {
                 type='text'
                 name='comment'
                 placeholder='Add a comment'
-                className='p-2 shadow-2xl outline-none rounded-l-md'
+                className='p-2 shadow-2xl outline-none rounded-l-md text-black'
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />

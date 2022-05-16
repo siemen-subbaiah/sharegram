@@ -38,7 +38,7 @@ const ExplorePage = () => {
         <section className='hidden md:block md:col-span-2'>
           <SideBar />
         </section>
-        <section className='md:col-span-10 md:h-screen md:overflow-y-auto'>
+        <section className='md:col-span-10 h-screen overflow-y-auto'>
           {publicPosts?.length === 0 ? (
             <div className='my-5 flex justify-center flex-col items-center'>
               <img src={noPost} alt='no-post' height={300} width={300} />

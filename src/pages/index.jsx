@@ -14,7 +14,7 @@ const IndexPage = () => {
         <section className='hidden md:block md:col-span-2'>
           <SideBar />
         </section>
-        <section className='md:col-span-10 md:h-screen md:overflow-y-auto px-4'>
+        <section className='md:col-span-10 h-screen overflow-y-auto px-4'>
           <Posts />
         </section>
         <div className='md:hidden'>

@@ -167,7 +167,7 @@ const Post = ({ item, userId, username, loading, saveds }) => {
 
   return (
     <>
-      <section className='bg-white shadow-2xl my-4'>
+      <section className='bg-white shadow-2xl my-4 dark:bg-gray-800'>
         <div className='flex items-center justify-between p-3'>
           <Link
             to={`/${item?.user?.username}`}
@@ -257,7 +257,7 @@ const Post = ({ item, userId, username, loading, saveds }) => {
         >
           {item?.likes.length} likes
         </p>
-        <hr />
+        <hr className='dark:border-gray-600' />
         <div className='p-3'>
           <div className='flex items-center justify-between'>
             {captionEdit ? (
@@ -266,7 +266,7 @@ const Post = ({ item, userId, username, loading, saveds }) => {
                   <input
                     type='text'
                     name='caption'
-                    className='p-2 shadow-2xl outline-none rounded-l-md'
+                    className='p-2 shadow-2xl outline-none rounded-l-md text-black'
                     value={caption}
                     onChange={(e) => setCaption(e.target.value)}
                   />

@@ -10,6 +10,10 @@ const LikeModal = ({ closeModal, modalIsOpen, likes }) => {
     setWindowWidth(window.screen.width);
   }, []);
 
+  const themeColor = localStorage.getItem('theme')
+    ? localStorage.getItem('theme')
+    : '#1F2937';
+
   const customStyles = {
     content: {
       top: '50%',
@@ -19,6 +23,8 @@ const LikeModal = ({ closeModal, modalIsOpen, likes }) => {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       width: `${windowWidth <= 500 ? '90%' : '20%'}`,
+      backgroundColor: themeColor === 'dark' ? '#1F2937' : 'white',
+      color: themeColor === 'dark' ? 'white' : 'black',
     },
     overlay: {
       position: 'fixed',
@@ -38,7 +44,7 @@ const LikeModal = ({ closeModal, modalIsOpen, likes }) => {
       ariaHideApp={false}
       contentLabel='following Modal'
     >
-      <h1 className='text-center'>Likes</h1>
+      <h1 className='text-center text-xl mb-5 font-semibold'>Likes</h1>
       <hr />
       {likes?.map((item) => {
         return (

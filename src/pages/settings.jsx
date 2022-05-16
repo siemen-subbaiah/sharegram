@@ -162,16 +162,20 @@ const SettingsPage = () => {
           <div className='my-5'>
             <div className='flex justify-center'>
               <button
-                className={`${
-                  active === 0 ? 'bg-primary text-white' : 'bg-white'
+                className={`rounded-l-md ${
+                  active === 0
+                    ? 'bg-primary text-white'
+                    : 'bg-white dark:text-black'
                 } p-3 w-2/5`}
                 onClick={() => setActive(0)}
               >
                 Edit Profile
               </button>
               <button
-                className={`${
-                  active === 1 ? 'bg-primary text-white' : 'bg-white'
+                className={`rounded-r-md ${
+                  active === 1
+                    ? 'bg-primary text-white'
+                    : 'bg-white dark:text-black'
                 } p-3 w-2/5`}
                 onClick={() => setActive(1)}
               >
@@ -227,7 +231,7 @@ const SettingsPage = () => {
                     <input
                       type='text'
                       name='name'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />
@@ -237,7 +241,7 @@ const SettingsPage = () => {
                     <input
                       type='email'
                       name='email'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -247,7 +251,7 @@ const SettingsPage = () => {
                     <textarea
                       type='text'
                       name='name'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2 h-32'
+                      className='bg-[#FAFAFA] p-1 outline-none border-2 h-32 text-black rounded-md'
                       value={bio}
                       onChange={(e) => setBio(e.target.value)}
                     />
@@ -257,7 +261,7 @@ const SettingsPage = () => {
                     <input
                       type='text'
                       name='url'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
                       value={link}
                       onChange={(e) => setLink(e.target.value)}
                     />
@@ -294,21 +298,22 @@ const SettingsPage = () => {
                     <p className='md:text-xl'>Current Password</p>
                     <input
                       type={showPassword1 ? 'text' : 'password'}
-                      name='name'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      name={showPassword1 ? 'name' : 'password'}
+                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
+                      required
                     />
                     {currentPassword.length >= 1 ? (
                       !showPassword1 ? (
-                        <AiFillEye
-                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer'
+                        <AiFillEyeInvisible
+                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword1(!showPassword1)}
                         />
                       ) : (
-                        <AiFillEyeInvisible
-                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer'
+                        <AiFillEye
+                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword1(!showPassword1)}
                         />
@@ -321,21 +326,22 @@ const SettingsPage = () => {
                     <p className='md:text-xl'>New Password</p>
                     <input
                       type={showPassword2 ? 'text' : 'password'}
-                      name='email'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      name={showPassword2 ? 'name' : 'password'}
+                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
+                      required
                     />
                     {newPassword.length >= 1 ? (
                       !showPassword2 ? (
-                        <AiFillEye
-                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer'
+                        <AiFillEyeInvisible
+                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword2(!showPassword2)}
                         />
                       ) : (
-                        <AiFillEyeInvisible
-                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer'
+                        <AiFillEye
+                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword2(!showPassword2)}
                         />
@@ -348,21 +354,22 @@ const SettingsPage = () => {
                     <p className='md:text-xl'>Confirm Password</p>
                     <input
                       type={showPassword3 ? 'text' : 'password'}
-                      name='email'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2'
+                      name={showPassword3 ? 'name' : 'password'}
+                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
                       value={confirmNewPassword}
                       onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      required
                     />
                     {confirmNewPassword.length >= 1 ? (
                       !showPassword3 ? (
-                        <AiFillEye
-                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer'
+                        <AiFillEyeInvisible
+                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword3(!showPassword3)}
                         />
                       ) : (
-                        <AiFillEyeInvisible
-                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer'
+                        <AiFillEye
+                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword3(!showPassword3)}
                         />

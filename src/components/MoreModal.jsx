@@ -65,6 +65,10 @@ const MoreModal = ({ closeModal, modalIsOpen, postId, photoId }) => {
     }
   };
 
+  const themeColor = localStorage.getItem('theme')
+    ? localStorage.getItem('theme')
+    : '#1F2937';
+
   const customStyles = {
     content: {
       top: '50%',
@@ -74,6 +78,8 @@ const MoreModal = ({ closeModal, modalIsOpen, postId, photoId }) => {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       width: `${windowWidth <= 500 ? '90%' : '20%'}`,
+      backgroundColor: themeColor === 'dark' ? '#1F2937' : 'white',
+      color: themeColor === 'dark' ? 'white' : 'black',
     },
     overlay: {
       position: 'fixed',
@@ -93,7 +99,7 @@ const MoreModal = ({ closeModal, modalIsOpen, postId, photoId }) => {
       ariaHideApp={false}
       contentLabel='More Modal'
     >
-      <h1 className='text-center'>More</h1>
+      <h1 className='text-center text-xl mb-5 font-semibold'>More</h1>
       <hr />
       <ul className='text-center'>
         <li className='my-4 cursor-pointer' onClick={handleDeletePost}>

@@ -84,7 +84,7 @@ const ProfilePage = () => {
         <section className='hidden md:block md:col-span-2'>
           <SideBar />
         </section>
-        <section className='md:col-span-10 md:h-screen md:overflow-y-auto px-4'>
+        <section className='md:col-span-10 h-screen overflow-y-auto md:px-4'>
           {data.isLoading === true ? (
             <div className='mt-5'>
               <div className='flex gap-4 md:gap-32 md:items-center justify-center'>
@@ -115,7 +115,7 @@ const ProfilePage = () => {
             </div>
           ) : (
             <div className='mt-5'>
-              <div className='flex gap-4 md:gap-32 md:items-center justify-center'>
+              <div className='flex gap-4 md:gap-32 md:items-center justify-center px-2'>
                 {arrData[0]?.picture ? (
                   <div>
                     <img
@@ -140,7 +140,7 @@ const ProfilePage = () => {
                       {arrData[0]?.username?.includes(localName) ? (
                         <Link
                           to='/account/settings'
-                          className='md:py-1 px-3 w-28 rounded-2xl border border-black'
+                          className='md:py-1 px-3 w-28 rounded-2xl border border-black dark:border-white'
                         >
                           Edit profile
                         </Link>
@@ -192,7 +192,7 @@ const ProfilePage = () => {
                       {arrData[0]?.following?.length} following
                     </p>
                   </div>
-                  <div className='text-gray-600'>
+                  <div className='text-gray-600 dark:text-gray-300'>
                     <p className='my-2 md:text-md'>{arrData[0]?.bio}</p>
                     <a href={arrData[0]?.link}>
                       {arrData[0]?.link?.replace(/^https?\:\/\//i, '')}
@@ -202,7 +202,7 @@ const ProfilePage = () => {
               </div>
             </div>
           )}
-          <hr className='my-3' />
+          <hr className='my-3 dark:border-gray-600' />
           {arrData[0]?.username?.includes(localName) && (
             <>
               <div className='flex md:gap-24 gap-10 my-4 justify-center'>
@@ -219,7 +219,7 @@ const ProfilePage = () => {
                   Saved
                 </button>
               </div>
-              <hr />
+              <hr className='dark:border-gray-600' />
             </>
           )}
           <div className='hidden md:block'>
@@ -229,14 +229,14 @@ const ProfilePage = () => {
               <Photos pics={arrData[0]?.posts} />
             )}
           </div>
+          <div className='block md:hidden'>
+            {savedToggle === 0 ? (
+              <Saved pics={data2.data?.saveds} />
+            ) : (
+              <Photos pics={arrData[0]?.posts} />
+            )}
+          </div>
         </section>
-        <div className='block md:hidden'>
-          {savedToggle === 0 ? (
-            <Saved pics={data2.data?.saveds} />
-          ) : (
-            <Photos pics={arrData[0]?.posts} />
-          )}
-        </div>
         <div className='md:hidden'>
           <BottomBar />
         </div>

@@ -45,15 +45,16 @@ const RegisterPage = () => {
           width={500}
           className='hidden md:block'
         />
-        <div className='bg-white shadow-2xl rounded-lg p-5'>
+        <div className='bg-white shadow-2xl rounded-lg p-5 dark:bg-gray-800'>
           <h1 className='text-2xl md:text-3xl text-center'>SIGNUP</h1>
           <form onSubmit={handleSignUp}>
             <div className='my-5'>
               <label htmlFor='email'>Username</label>
               <input
+                required
                 type='text'
                 name='name'
-                className='w-full py-3 border-2 outline-none pl-2'
+                className='w-full py-3 border-2 outline-none pl-2 text-black rounded-md'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -61,9 +62,10 @@ const RegisterPage = () => {
             <div className='my-5'>
               <label htmlFor='email'>Email</label>
               <input
+                required
                 type='email'
                 name='email'
-                className='w-full py-3 border-2 outline-none pl-2'
+                className='w-full py-3 border-2 outline-none pl-2 text-black rounded-md'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -71,9 +73,10 @@ const RegisterPage = () => {
             <div className='my-5'>
               <label htmlFor='email'>Password</label>
               <input
+                required
                 type='password'
                 name='password'
-                className='w-full py-3 border-2 outline-none pl-2'
+                className='w-full py-3 border-2 outline-none pl-2 text-black rounded-md'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

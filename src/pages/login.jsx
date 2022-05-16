@@ -41,7 +41,7 @@ const LoginPage = () => {
           width={470}
           className='hidden md:block'
         />
-        <div className='bg-white shadow-2xl rounded-lg p-5'>
+        <div className='bg-white shadow-2xl rounded-lg p-5 dark:bg-gray-800'>
           <h1 className='text-2xl md:text-3xl text-center'>LOGIN</h1>
           <form onSubmit={handleLogin}>
             <div className='my-5'>
@@ -49,7 +49,7 @@ const LoginPage = () => {
               <input
                 type='text'
                 name='email'
-                className='w-full py-3 border-2 outline-none pl-2'
+                className='w-full py-3 border-2 outline-none pl-2 text-black rounded-md'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -59,7 +59,7 @@ const LoginPage = () => {
               <input
                 type='password'
                 name='password'
-                className='w-full py-3 border-2 outline-none pl-2'
+                className='w-full py-3 border-2 outline-none pl-2 text-black rounded-md'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

@@ -10,6 +10,10 @@ const FollowersModal = ({ closeModal, modalIsOpen, followers }) => {
     setWindowWidth(window.screen.width);
   }, []);
 
+  const themeColor = localStorage.getItem('theme')
+    ? localStorage.getItem('theme')
+    : '#1F2937';
+
   const customStyles = {
     content: {
       top: '50%',
@@ -19,6 +23,8 @@ const FollowersModal = ({ closeModal, modalIsOpen, followers }) => {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       width: `${windowWidth <= 500 ? '90%' : '20%'}`,
+      backgroundColor: themeColor === 'dark' ? '#1F2937' : 'white',
+      color: themeColor === 'dark' ? 'white' : 'black',
     },
     overlay: {
       position: 'fixed',
@@ -38,8 +44,8 @@ const FollowersModal = ({ closeModal, modalIsOpen, followers }) => {
       ariaHideApp={false}
       contentLabel='followers Modal'
     >
-      <h1 className='text-center'>Followers</h1>
-      <hr />
+      <h1 className='text-center text-xl mb-5 font-semibold'>Followers</h1>
+      {/* <hr /> */}
       {followers?.map((item) => {
         return (
           <Link

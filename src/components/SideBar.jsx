@@ -17,7 +17,7 @@ const SideBar = () => {
   const { logout } = useContext(AuthContext);
 
   return (
-    <aside className='px-10 py-3 relative bg-white h-[90%] shadow-md'>
+    <aside className='px-10 py-3 relative bg-white h-[90%] shadow-md dark:bg-gray-800'>
       <ul>
         <li className='my-16'>
           <Link
