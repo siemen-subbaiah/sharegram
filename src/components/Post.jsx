@@ -207,6 +207,7 @@ const Post = ({ item, userId, username, loading, saveds }) => {
             />
           ) : (
             <img
+              onDoubleClick={() => handleLiking(item?.id)}
               src={item?.photo?.url}
               alt='post'
               height={550}

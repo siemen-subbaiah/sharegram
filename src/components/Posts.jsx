@@ -6,6 +6,7 @@ import { useFetch } from '../hooks/useFetch';
 import noPost from '../images/noPost.svg';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import Spinner from './Spinner';
 
 const Posts = () => {
   const [randomUsers, setRandomUsers] = useState([]);
@@ -35,6 +36,11 @@ const Posts = () => {
 
   return (
     <>
+      {data.isLoading && (
+        <div className='flex items-center h-screen'>
+          <Spinner />
+        </div>
+      )}
       <div className='flex justify-center mb-20 md:mt-10 flex-col items-center'>
         {following?.length >= 1 && posts?.length === 0 && (
           <div className='mt-5 flex justify-center flex-col items-center'>
@@ -76,33 +82,14 @@ const Posts = () => {
           </div>
         )}
         {posts?.map((item) => (
-          <>
-            {data.isLoading === true ? (
-              <section className='bg-white shadow-2xl my-4'>
-                <div className='p-3'>
-                  <MdOutlineAccountCircle
-                    fontSize='1.5rem'
-                    className='cursor-pointer'
-                  />
-                </div>
-                <img
-                  src='https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png'
-                  alt='loading'
-                  height={500}
-                  width={500}
-                />
-              </section>
-            ) : (
-              <Post
-                key={item?.id}
-                item={item}
-                userId={data2.data?.id}
-                username={data2.data?.username}
-                loading={data.isLoading}
-                saveds={data2?.data.saveds}
-              />
-            )}
-          </>
+          <Post
+            key={item?.id}
+            item={item}
+            userId={data2.data?.id}
+            username={data2.data?.username}
+            loading={data.isLoading}
+            saveds={data2?.data.saveds}
+          />
         ))}
       </div>
     </>
