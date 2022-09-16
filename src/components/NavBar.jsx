@@ -4,12 +4,11 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { CgDarkMode } from 'react-icons/cg';
 import NewPostModal from './NewPostModal';
 import { AuthContext } from '../context/AuthState';
-import SearchComp from './SearchComp';
 
 const NavBar = ({ changeTheme }) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
-  const { user } = useContext(AuthContext);
+  const { user, profilePic } = useContext(AuthContext);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -24,15 +23,26 @@ const NavBar = ({ changeTheme }) => {
           </Link>
           <div className='relative top-1'>{/* <SearchComp /> */}</div>
         </div>
-        <div className='flex'>
+        <div className='flex items-center gap-3'>
           <CgDarkMode
             onClick={changeTheme}
             fontSize='2rem'
             className='cursor-pointer relative top-2 md:static'
           />
+          <Link to='/profile'>
+            {profilePic && (
+              <img
+                src={profilePic}
+                alt='picture'
+                height='30px'
+                width='30px'
+                className='rounded-2xl hidden lg:block'
+              />
+            )}
+          </Link>
           <div>
             {user && (
-              <div className='px-5 mt-2 md:mt-0'>
+              <div className='pr-5 mt-2 md:mt-0'>
                 <button
                   className='bg-white py-1 px-5 rounded-2xl text-black flex items-center gap-2'
                   onClick={() => setIsOpen(true)}

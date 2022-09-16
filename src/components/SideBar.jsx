@@ -15,7 +15,7 @@ const SideBar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  const { logout } = useContext(AuthContext);
+  const { logout, setProfilePic } = useContext(AuthContext);
 
   return (
     <aside className='px-10 py-3 relative bg-white h-[90%] shadow-md dark:bg-gray-800'>
@@ -61,6 +61,7 @@ const SideBar = () => {
             } flex items-center w-[7.5rem] gap-2`}
           >
             <MdOutlineAccountCircle fontSize='1.5rem' />
+
             <span>Profile</span>
           </Link>
         </li>
@@ -82,6 +83,7 @@ const SideBar = () => {
           onClick={() => {
             logout();
             navigate('/');
+            setProfilePic('');
           }}
         >
           <RiLogoutCircleLine fontSize='1.5rem' />

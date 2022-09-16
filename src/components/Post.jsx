@@ -16,6 +16,12 @@ import axios from 'axios';
 import LikeModal from './LikeModal';
 import ShareModal from './ShareModal';
 import MoreModal from './MoreModal';
+import {
+  addLikeService,
+  savePostService,
+  unLikeService,
+  unSavePostService,
+} from '../services/postService';
 
 const Post = ({ item, userId, username, loading, saveds }) => {
   const [modalIsOpen, setIsModalIsOpen] = useState(false);
@@ -33,58 +39,6 @@ const Post = ({ item, userId, username, loading, saveds }) => {
   const checkSaved = saveds?.find((fi) => fi?.post?.id === item?.id);
 
   const { user: token } = useContext(AuthContext);
-
-  const likePostFunc = async (theData) => {
-    try {
-      const res = await axios.post(`${API_URL}/likes`, theData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return err;
-    }
-  };
-
-  const unLikePostFunc = async () => {
-    try {
-      const res = await axios.delete(`${API_URL}/likes/${checkLiked?.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return err;
-    }
-  };
-
-  const savePostFunc = async (theData) => {
-    try {
-      const res = await axios.post(`${API_URL}/saveds`, theData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return err;
-    }
-  };
-
-  const unSavePostFunc = async () => {
-    try {
-      const res = await axios.delete(`${API_URL}/saveds/${checkSaved?.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return err;
-    }
-  };
 
   const captionEdittFunc = async (theData) => {
     try {
@@ -105,19 +59,19 @@ const Post = ({ item, userId, username, loading, saveds }) => {
 
   const queryClient = useQueryClient();
 
-  const { mutate: likePost } = useMutation(likePostFunc, {
+  const { mutate: likePost } = useMutation(addLikeService, {
     onSuccess: () => queryClient.invalidateQueries('posts'),
   });
 
-  const { mutate: unLikePost } = useMutation(unLikePostFunc, {
+  const { mutate: unLikePost } = useMutation(unLikeService, {
     onSuccess: () => queryClient.invalidateQueries('posts'),
   });
 
-  const { mutate: savePost } = useMutation(savePostFunc, {
+  const { mutate: savePost } = useMutation(savePostService, {
     onSuccess: () => queryClient.invalidateQueries('user'),
   });
 
-  const { mutate: unSavePost } = useMutation(unSavePostFunc, {
+  const { mutate: unSavePost } = useMutation(unSavePostService, {
     onSuccess: () => queryClient.invalidateQueries('user'),
   });
 
@@ -129,7 +83,7 @@ const Post = ({ item, userId, username, loading, saveds }) => {
   );
 
   const handleLiking = (postId) => {
-    likePost({
+    const data = {
       likes: 1,
       username,
       user: {
@@ -138,24 +92,27 @@ const Post = ({ item, userId, username, loading, saveds }) => {
       post: {
         id: postId,
       },
-    });
+    };
+
+    likePost({ data, token });
   };
 
   const handleUnLiking = () => {
-    unLikePost();
+    unLikePost({ checkLiked: checkLiked?.id, token });
   };
 
   const handleSaving = (post) => {
-    savePost({
+    const data = {
       user: {
         id: userId,
       },
       post,
-    });
+    };
+    savePost({ data, token });
   };
 
   const handleUnSaving = () => {
-    unSavePost();
+    unSavePost({ checkSaved: checkSaved?.id, token });
   };
 
   const handleCaptionEdit = (e) => {

@@ -23,8 +23,10 @@ const Posts = () => {
   const usersList = useFetch('user-list', `${API_URL}/users`, token);
 
   useEffect(() => {
-    setRandomUsers(usersList.data?.sort(() => 0.5 - Math.random()).slice(0, 5));
-  }, []);
+    setRandomUsers(
+      usersList?.data?.sort(() => 0.5 - Math.random()).slice(0, 5)
+    );
+  }, [usersList?.isLoading === false]);
 
   // GET LIST OF FOLLOWERS!
   const following = data2.data?.following?.map((item) => item?.id);

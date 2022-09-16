@@ -1,12 +1,20 @@
 import axios from 'axios';
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { API_URL } from '../config';
+import { useFetch } from '../hooks/useFetch';
 import { initialState, reducer } from './AuthReducer';
 
 export const AuthContext = createContext();
 
 const AuthState = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [profilePic, setProfilePic] = useState('');
+
+  const { data } = useFetch('user', `${API_URL}/users/me`, state.user);
+
+  useEffect(() => {
+    setProfilePic(data?.picture?.url);
+  }, [data?.picture?.url]);
 
   const login = async (loignData) => {
     dispatch({ type: 'LOADING' });
@@ -51,7 +59,15 @@ const AuthState = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ ...state, dispatch, logout, login, register }}
+      value={{
+        ...state,
+        dispatch,
+        logout,
+        login,
+        register,
+        profilePic,
+        setProfilePic,
+      }}
     >
       {children}
     </AuthContext.Provider>
