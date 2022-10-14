@@ -10,6 +10,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [guestLogin, setGuestLogin] = useState(false);
+
   let from = location.state?.from?.pathname || '/';
 
   const [password, setPassword] = useState('');
@@ -19,7 +21,9 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login({ identifier: email, password });
+    if (!guestLogin) {
+      login({ identifier: email, password });
+    }
   };
 
   useEffect(() => {
@@ -70,7 +74,22 @@ const LoginPage = () => {
                 loading && 'opacity-60'
               } bg-primary py-2 px-5 w-full rounded-md text-white`}
             >
-              {loading ? 'Loading...' : 'LOGIN'}
+              {loading ? 'Loading...' : 'Login'}
+            </button>
+            <button
+              disabled={loading}
+              onClick={() => {
+                setGuestLogin(true);
+                login({
+                  identifier: 'johndoe@gmail.com',
+                  password: 'johndoe123',
+                });
+              }}
+              className={`${
+                loading && 'opacity-60'
+              } bg-[#ac6be7] py-2 px-5 w-full rounded-md text-white mt-4`}
+            >
+              {loading ? 'Loading...' : 'Login as guest'}
             </button>
             <div className='md:flex justify-around gap-5'>
               <div className='my-5 flex w-full border'>
@@ -84,7 +103,7 @@ const LoginPage = () => {
                     height={23}
                     width={23}
                   />
-                  LOGIN with GITHUB
+                  Login with Github
                 </a>
               </div>
               <div className='my-5 flex w-full border'>
@@ -98,7 +117,7 @@ const LoginPage = () => {
                     height={19}
                     width={19}
                   />
-                  LOGIN with GOOGLE
+                  Login with Google
                 </a>
               </div>
             </div>
