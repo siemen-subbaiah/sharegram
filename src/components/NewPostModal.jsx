@@ -37,7 +37,7 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
       if (res.statusText) {
         setImage(null);
         closeModal();
-        navigate('/profile');
+        navigate(`/post/${res?.data?.id}`);
       }
       return res.data;
     } catch (err) {

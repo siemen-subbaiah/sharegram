@@ -28,7 +28,7 @@ const App = () => {
   return (
     <Router>
       <div className='transition-colors ease-in font-poppins bg-[#FAFAFA] dark:bg-gray-900 dark:text-gray-200 md:relative md:h-screen md:overflow-hidden'>
-        <NavBar changeTheme={changeTheme} />
+        <NavBar changeTheme={changeTheme} theme={theme} />
         <Routes>
           <Route path='/account/login' element={<LoginPage />} />
           <Route path='/account/register' element={<RegisterPage />} />

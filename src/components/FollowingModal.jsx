@@ -46,6 +46,9 @@ const FollowingModal = ({ closeModal, modalIsOpen, following }) => {
     >
       <h1 className='text-center text-xl mb-5 font-semibold'>Following</h1>
       {/* <hr /> */}
+      {following?.length === 0 && (
+        <p className='text-xl text-center'>No following</p>
+      )}
       {following?.map((item) => {
         return (
           <Link

@@ -23,7 +23,7 @@ import {
   unSavePostService,
 } from '../services/postService';
 
-const Post = ({ item, userId, username, loading, saveds }) => {
+const Post = ({ item, userId, username, loading, saveds, showComments }) => {
   const [modalIsOpen, setIsModalIsOpen] = useState(false);
   const [shareModalIsOpen, setShareIsModalIsOpen] = useState(false);
   const [moreModalIsOpen, setMoreModalIsOpen] = useState(false);
@@ -216,12 +216,11 @@ const Post = ({ item, userId, username, loading, saveds }) => {
           </div>
         </div>
         <p
-          className='px-3 mb-2 cursor-pointer'
+          className='px-3 cursor-pointer'
           onClick={() => setIsModalIsOpen(true)}
         >
           {item?.likes.length} likes
         </p>
-        <hr className='dark:border-gray-600' />
         <div className='p-3'>
           <div className='flex items-center justify-between'>
             {captionEdit ? (
@@ -283,9 +282,30 @@ const Post = ({ item, userId, username, loading, saveds }) => {
               </>
             )}
           </div>
-          <p className='mt-3 text-gray-400 text-sm'>
-            {item?.comments?.length} comments
-          </p>
+          <hr className='dark:border-gray-600 my-1' />
+          {showComments ? (
+            <>
+              <Link to={`/post/${item?.id}`} className='text-gray-400 text-sm'>
+                {item?.comments?.length > 2 &&
+                  `view all ${item?.comments?.length} comments`}
+              </Link>
+              {item?.comments
+                ?.sort(
+                  (a, b) => new Date(b.published_at) - new Date(a.published_at)
+                )
+                .slice(0, 2)
+                .map((comment) => {
+                  return (
+                    <div key={comment?.id} className='flex gap-1 my-2'>
+                      <strong>{comment?.user?.username}:</strong>
+                      <p>{comment?.comment}</p>
+                    </div>
+                  );
+                })}
+            </>
+          ) : (
+            <p>{item?.comments?.length} comments</p>
+          )}
         </div>
       </section>
       <LikeModal

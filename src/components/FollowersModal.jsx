@@ -46,6 +46,9 @@ const FollowersModal = ({ closeModal, modalIsOpen, followers }) => {
     >
       <h1 className='text-center text-xl mb-5 font-semibold'>Followers</h1>
       {/* <hr /> */}
+      {followers?.length === 0 && (
+        <p className='text-xl text-center'>No followers</p>
+      )}
       {followers?.map((item) => {
         return (
           <Link

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import BottomBar from '../components/BottomBar';
 import SideBar from '../components/SideBar';
 import { MdAccountCircle } from 'react-icons/md';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
 import { useFetch } from '../hooks/useFetch';
 import { AuthContext } from '../context/AuthState';
@@ -81,6 +82,23 @@ const SettingsPage = () => {
     }
   };
 
+  const deleteImgFunc = async () => {
+    try {
+      const res = await axios.delete(
+        `${API_URL}/upload/files/${data?.data?.picture?.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setImage(null);
+      return res.data;
+    } catch (err) {
+      return err;
+    }
+  };
+
   const changePasswordFunc = async (theData) => {
     try {
       const res = await axios.post(
@@ -116,6 +134,10 @@ const SettingsPage = () => {
     }
   );
 
+  const { mutate: deleteImg } = useMutation(deleteImgFunc, {
+    onSuccess: () => queryClient.invalidateQueries('image'),
+  });
+
   const { mutate: changePassword, isLoading: isLoadingChangePassword } =
     useMutation(changePasswordFunc, {
       onSuccess: () => queryClient.invalidateQueries('user'),
@@ -124,6 +146,7 @@ const SettingsPage = () => {
   const handleProfileEdit = (e) => {
     e.preventDefault();
     updateProile({ picture: image, username, email, bio, link });
+    setImagePreview(null);
   };
 
   const handleFileChange = (e) => {
@@ -145,9 +168,13 @@ const SettingsPage = () => {
     if (newPassword === confirmNewPassword) {
       changePassword({ currentPassword, newPassword, confirmNewPassword });
     } else {
-      alert('password doesnt match');
+      alert('password does not match');
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem('user_name', JSON.stringify(data?.data?.username));
+  }, [data?.data?.username]);
 
   return (
     <>
@@ -165,7 +192,7 @@ const SettingsPage = () => {
                 className={`rounded-l-md ${
                   active === 0
                     ? 'bg-primary text-white'
-                    : 'bg-white dark:text-black'
+                    : 'dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white dark:text-white text-black'
                 } p-3 w-2/5`}
                 onClick={() => setActive(0)}
               >
@@ -175,7 +202,7 @@ const SettingsPage = () => {
                 className={`rounded-r-md ${
                   active === 1
                     ? 'bg-primary text-white'
-                    : 'bg-white dark:text-black'
+                    : 'dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white dark:text-white text-black'
                 } p-3 w-2/5`}
                 onClick={() => setActive(1)}
               >
@@ -192,7 +219,7 @@ const SettingsPage = () => {
                     {isLoadingImg === true ? (
                       <Spinner />
                     ) : imagePreview ? (
-                      <label htmlFor='file-input' className='cursor-pointer'>
+                      <div>
                         <img
                           src={URL.createObjectURL(imagePreview)}
                           alt='profile-pic'
@@ -200,10 +227,14 @@ const SettingsPage = () => {
                           width={170}
                           className='rounded-2xl'
                         />
-                        <FiEdit className='my-2' fontSize='1.2rem' />
-                      </label>
+                        <div className='flex gap-2'>
+                          <label htmlFor='file-input'>
+                            <FiEdit className='my-2' fontSize='1.2rem' />
+                          </label>
+                        </div>
+                      </div>
                     ) : data?.data?.picture ? (
-                      <label htmlFor='file-input' className='cursor-pointer'>
+                      <div>
                         <img
                           src={data?.data?.picture?.url}
                           alt='profile-pic'
@@ -211,13 +242,31 @@ const SettingsPage = () => {
                           width={170}
                           className='rounded-2xl'
                         />
-                        <FiEdit className='my-2' fontSize='1.2rem' />
-                      </label>
+                        <div className='flex gap-2'>
+                          <label htmlFor='file-input'>
+                            <FiEdit className='my-2' fontSize='1.2rem' />
+                          </label>
+                          <button>
+                            <AiOutlineDelete
+                              className='my-2 cursor-pointer'
+                              fontSize='1.2rem'
+                              onClick={deleteImg}
+                            />
+                          </button>
+                        </div>
+                      </div>
                     ) : (
-                      <label htmlFor='file-input' className='cursor-pointer'>
+                      <div>
                         <MdAccountCircle className='md:h-44 md:w-44 h-20 w-20' />
-                        <FiEdit className='my-2' fontSize='1.2rem' />
-                      </label>
+                        <div className='flex gap-3'>
+                          <label htmlFor='file-input'>
+                            <FiEdit
+                              className='my-2 cursor-pointer'
+                              fontSize='1.2rem'
+                            />
+                          </label>
+                        </div>
+                      </div>
                     )}
                     <input
                       id='file-input'
@@ -231,7 +280,7 @@ const SettingsPage = () => {
                     <input
                       type='text'
                       name='name'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
+                      className='dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white p-2 outline-none dark:border-0 border-2 dark:text-white text-black rounded-md'
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />
@@ -241,7 +290,7 @@ const SettingsPage = () => {
                     <input
                       type='email'
                       name='email'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
+                      className='dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white p-2 outline-none dark:border-0 border-2 dark:text-white text-black rounded-md'
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -251,7 +300,7 @@ const SettingsPage = () => {
                     <textarea
                       type='text'
                       name='name'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2 h-32 text-black rounded-md'
+                      className='dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white p-2 outline-none dark:border-0 border-2 h-32 dark:text-white text-black rounded-md'
                       value={bio}
                       onChange={(e) => setBio(e.target.value)}
                     />
@@ -261,7 +310,7 @@ const SettingsPage = () => {
                     <input
                       type='text'
                       name='url'
-                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
+                      className='dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white p-2 outline-none dark:border-0 border-2 dark:text-white text-black rounded-md'
                       value={link}
                       onChange={(e) => setLink(e.target.value)}
                     />
@@ -299,7 +348,7 @@ const SettingsPage = () => {
                     <input
                       type={showPassword1 ? 'text' : 'password'}
                       name={showPassword1 ? 'name' : 'password'}
-                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
+                      className='dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white dark:text-white text-black p-2 outline-none rounded-md dark:border-0 border-2'
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       required
@@ -307,13 +356,13 @@ const SettingsPage = () => {
                     {currentPassword.length >= 1 ? (
                       !showPassword1 ? (
                         <AiFillEyeInvisible
-                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer text-black'
+                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer dark:text-white text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword1(!showPassword1)}
                         />
                       ) : (
                         <AiFillEye
-                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer text-black'
+                          className='absolute md:right-44 right-8 bottom-[20.3rem] no-bottom cursor-pointer dark:text-white text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword1(!showPassword1)}
                         />
@@ -327,7 +376,7 @@ const SettingsPage = () => {
                     <input
                       type={showPassword2 ? 'text' : 'password'}
                       name={showPassword2 ? 'name' : 'password'}
-                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
+                      className='dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white dark:text-white text-black p-2 outline-none rounded-md dark:border-0 border-2'
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       required
@@ -335,13 +384,13 @@ const SettingsPage = () => {
                     {newPassword.length >= 1 ? (
                       !showPassword2 ? (
                         <AiFillEyeInvisible
-                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer text-black'
+                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer dark:text-white text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword2(!showPassword2)}
                         />
                       ) : (
                         <AiFillEye
-                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer text-black'
+                          className='absolute md:right-44 right-8 bottom-[12.8rem] no-bottom cursor-pointer dark:text-white text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword2(!showPassword2)}
                         />
@@ -355,7 +404,7 @@ const SettingsPage = () => {
                     <input
                       type={showPassword3 ? 'text' : 'password'}
                       name={showPassword3 ? 'name' : 'password'}
-                      className='bg-[#FAFAFA] p-1 outline-none border-2 text-black rounded-md'
+                      className='dark:shadow-lg shadow-gray-800/20 shadow-md dark:bg-gray-800 bg-white dark:text-white text-black p-2 outline-none rounded-md dark:border-0 border-2'
                       value={confirmNewPassword}
                       onChange={(e) => setConfirmNewPassword(e.target.value)}
                       required
@@ -363,13 +412,13 @@ const SettingsPage = () => {
                     {confirmNewPassword.length >= 1 ? (
                       !showPassword3 ? (
                         <AiFillEyeInvisible
-                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer text-black'
+                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer dark:text-white text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword3(!showPassword3)}
                         />
                       ) : (
                         <AiFillEye
-                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer text-black'
+                          className='absolute md:right-44 right-8 bottom-[5.3rem] no-bottom cursor-pointer dark:text-white text-black'
                           fontSize='1.2rem'
                           onClick={() => setShowPassword3(!showPassword3)}
                         />
@@ -378,16 +427,18 @@ const SettingsPage = () => {
                       ''
                     )}
                   </div>
-                  <div className='flex justify-end'>
+
+                  <div className='grid md:grid-cols-2 grid-cols-1 gap-5 items-center self-end my-10'>
+                    <p> </p>
                     {isLoadingChangePassword === true ? (
                       <button
                         disabled
-                        className='bg-primary opacity-50 text-white p-1 rounded-md md:w-2/4 w-full'
+                        className='bg-primary opacity-50 text-white p-1 rounded-md w-full'
                       >
                         loading...
                       </button>
                     ) : (
-                      <button className='bg-primary text-white p-1 rounded-md md:w-2/4 w-full outline-none'>
+                      <button className='bg-primary text-white p-1 rounded-md w-full outline-none'>
                         Update
                       </button>
                     )}

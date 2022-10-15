@@ -4,9 +4,8 @@ import { API_URL } from '../config';
 import { AuthContext } from '../context/AuthState';
 import { useFetch } from '../hooks/useFetch';
 import noPost from '../images/noPost.svg';
-import { MdOutlineAccountCircle } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 import Spinner from './Spinner';
+import FollowOthers from './FollowOthers';
 
 const Posts = () => {
   const [randomUsers, setRandomUsers] = useState([]);
@@ -56,31 +55,9 @@ const Posts = () => {
             <p className='my-8 text-2xl text-center'>
               Here are some accounts to follow
             </p>
-            {randomUsers?.map((user) => {
-              return (
-                <Link
-                  to={`/${user?.username}`}
-                  key={user?.id}
-                  className='flex items-center justify-between gap-4 my-10 dark:bg-gray-800 bg-white p-2 rounded-md shadow-2xl'
-                >
-                  <p>{user?.username}</p>
-                  {user?.picture ? (
-                    <img
-                      src={user?.picture?.url}
-                      alt='profile-pic'
-                      height={40}
-                      width={40}
-                      className='rounded-3xl'
-                    />
-                  ) : (
-                    <MdOutlineAccountCircle
-                      fontSize='2.5rem'
-                      className='cursor-pointer'
-                    />
-                  )}
-                </Link>
-              );
-            })}
+            {randomUsers?.map((user) => (
+              <FollowOthers user={user} space key={user.id} />
+            ))}
           </div>
         )}
         {posts?.map((item) => (
@@ -91,6 +68,7 @@ const Posts = () => {
             username={data2.data?.username}
             loading={data.isLoading}
             saveds={data2?.data.saveds}
+            showComments
           />
         ))}
       </div>

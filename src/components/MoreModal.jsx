@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
 import { AuthContext } from '../context/AuthState';
+import { RiDeleteBinLine } from 'react-icons/ri';
 
 const MoreModal = ({ closeModal, modalIsOpen, postId, photoId }) => {
   const navigate = useNavigate();
@@ -102,8 +103,12 @@ const MoreModal = ({ closeModal, modalIsOpen, postId, photoId }) => {
       <h1 className='text-center text-xl mb-5 font-semibold'>More</h1>
       {/* <hr /> */}
       <ul className='text-center'>
-        <li className='my-4 cursor-pointer' onClick={handleDeletePost}>
-          Delete Post
+        <li
+          className='cursor-pointer flex items-center justify-center gap-2'
+          onClick={handleDeletePost}
+        >
+          <RiDeleteBinLine />
+          <span>Delete Post</span>
         </li>
       </ul>
     </Modal>

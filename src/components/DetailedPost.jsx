@@ -154,6 +154,7 @@ const DetailedPost = () => {
           username={data2.data?.username}
           loading={data.isLoading}
           saveds={data2.data?.saveds}
+          showComments={false}
         />
 
         <div className='md:my-10 md:border-l-2 md:pl-5 mb-20 md:mb-0 md:w-3/4'>
@@ -163,7 +164,7 @@ const DetailedPost = () => {
           ) : (
             arrData[0]?.comments?.map((item) => {
               return (
-                <div className='my-5'>
+                <div className='my-5' key={item?.id}>
                   <div className='flex items-center gap-3'>
                     <Link
                       to={`/${item?.user?.username}`}

@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { CgDarkMode } from 'react-icons/cg';
 import NewPostModal from './NewPostModal';
 import { AuthContext } from '../context/AuthState';
 
-const NavBar = ({ changeTheme }) => {
+import { MdDarkMode, MdLightMode } from 'react-icons/md';
+
+const NavBar = ({ changeTheme, theme }) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   const { user, profilePic } = useContext(AuthContext);
@@ -24,11 +25,19 @@ const NavBar = ({ changeTheme }) => {
           <div className='relative top-1'>{/* <SearchComp /> */}</div>
         </div>
         <div className='flex items-center gap-3'>
-          <CgDarkMode
-            onClick={changeTheme}
-            fontSize='2rem'
-            className='cursor-pointer relative top-2 md:static'
-          />
+          {theme === 'dark' ? (
+            <MdLightMode
+              onClick={changeTheme}
+              fontSize='2rem'
+              className='cursor-pointer relative top-2 md:static'
+            />
+          ) : (
+            <MdDarkMode
+              onClick={changeTheme}
+              fontSize='2rem'
+              className='cursor-pointer relative top-2 md:static'
+            />
+          )}
           <Link to='/profile'>
             {profilePic && (
               <img
