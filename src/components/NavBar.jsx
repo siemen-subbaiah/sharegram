@@ -17,27 +17,11 @@ const NavBar = ({ changeTheme, theme }) => {
 
   return (
     <>
-      <nav className='bg-primary text-white p-3 md:p-4 flex items-center md:flex-row flex-col justify-between md:static sticky top-0'>
-        <div className='flex items-center gap-7'>
-          <Link to='/'>
-            <h1 className='md:px-5 md:text-3xl text-[1.6rem]'>ShareGram</h1>
-          </Link>
-          <div className='relative top-1'>{/* <SearchComp /> */}</div>
-        </div>
+      <nav className='bg-primary text-white p-3 md:p-4 flex flex-col md:flex-row items-center justify-between md:static sticky top-0'>
+        <Link to='/'>
+          <h1 className='md:px-5 md:text-3xl text-[1.6rem]'>ShareGram</h1>
+        </Link>
         <div className='flex items-center gap-3'>
-          {theme === 'dark' ? (
-            <MdLightMode
-              onClick={changeTheme}
-              fontSize='2rem'
-              className='cursor-pointer relative top-2 md:static'
-            />
-          ) : (
-            <MdDarkMode
-              onClick={changeTheme}
-              fontSize='2rem'
-              className='cursor-pointer relative top-2 md:static'
-            />
-          )}
           <Link to='/profile'>
             {profilePic && (
               <img
@@ -49,6 +33,19 @@ const NavBar = ({ changeTheme, theme }) => {
               />
             )}
           </Link>
+          {theme === 'dark' ? (
+            <MdLightMode
+              onClick={changeTheme}
+              fontSize='2rem'
+              className='cursor-pointer relative md:static top-1'
+            />
+          ) : (
+            <MdDarkMode
+              onClick={changeTheme}
+              fontSize='2rem'
+              className='cursor-pointer relative md:static top-1'
+            />
+          )}
           <div>
             {user && (
               <div className='pr-5 mt-2 md:mt-0'>

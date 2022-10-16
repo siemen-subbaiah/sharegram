@@ -5,7 +5,7 @@ import DetailedPost from '../components/DetailedPost';
 
 const DetailedPage = () => {
   return (
-    <div className='grid md:grid-cols-12 grid-cols-1 relative'>
+    <div className='grid md:grid-cols-12 grid-cols-1'>
       <section className='hidden md:block md:col-span-2'>
         <SideBar />
       </section>

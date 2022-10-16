@@ -42,7 +42,7 @@ const Posts = () => {
           <Spinner />
         </div>
       )}
-      <div className='flex justify-center mb-20 md:mt-10 flex-col items-center'>
+      <div className='flex justify-center mb-20 md:mt-5 flex-col items-center'>
         {following?.length >= 1 && posts?.length === 0 && (
           <div className='mt-5 flex justify-center flex-col items-center'>
             <img src={noPost} alt='no-post' height={300} width={300} />

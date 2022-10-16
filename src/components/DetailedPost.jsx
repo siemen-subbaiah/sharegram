@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MdAccountCircle, MdOutlineCancel } from 'react-icons/md';
 import { BiEdit } from 'react-icons/bi';
 import { RiDeleteBinLine } from 'react-icons/ri';
@@ -10,15 +10,25 @@ import Post from './Post';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
+import Confirm from './Confirm';
 
 const DetailedPost = () => {
   const [comment, setComment] = useState('');
   const [editing, setEditing] = useState(false);
   const [editId, setEditId] = useState(0);
 
+  const [deleteId, setDeleteId] = useState('');
+
   const { id } = useParams();
 
-  const { user: token } = useContext(AuthContext);
+  const {
+    user: token,
+    modalValue,
+    openModal,
+    closeModal,
+    handleConfirmNo,
+    confirmValue,
+  } = useContext(AuthContext);
 
   const data = useFetch(['posts', id], `${API_URL}/posts/${id}`, token);
   const data2 = useFetch('user', `${API_URL}/users/me`, token);
@@ -115,19 +125,20 @@ const DetailedPost = () => {
     setEditId(selectedId);
   };
 
-  const handleDeleting = (selectedId) => {
-    const prompt = window.confirm(
-      'Are you sure you want to delete this comment?'
-    );
-
+  const handleDeleting = () => {
+    openModal();
     setEditing(false);
     setComment('');
     setEditId('');
-
-    if (prompt) {
-      deleteComment(selectedId);
-    }
   };
+
+  useEffect(() => {
+    if (confirmValue) {
+      deleteComment(deleteId);
+      handleConfirmNo();
+      closeModal();
+    }
+  }, [confirmValue]);
 
   return (
     <>
@@ -212,7 +223,10 @@ const DetailedPost = () => {
                           )}
                           <RiDeleteBinLine
                             fontSize='1.1rem'
-                            onClick={() => handleDeleting(item?.id)}
+                            onClick={() => {
+                              handleDeleting();
+                              setDeleteId(item?.id);
+                            }}
                           />
                         </div>
                       )}
@@ -258,6 +272,7 @@ const DetailedPost = () => {
           </div>
         </div>
       </div>
+      {modalValue && <Confirm />}
     </>
   );
 };

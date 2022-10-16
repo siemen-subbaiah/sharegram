@@ -219,7 +219,7 @@ const Post = ({ item, userId, username, loading, saveds, showComments }) => {
           className='px-3 cursor-pointer'
           onClick={() => setIsModalIsOpen(true)}
         >
-          {item?.likes.length} likes
+          {item?.likes.length} {item?.likes?.length === 1 ? 'like' : 'likes'}
         </p>
         <div className='p-3'>
           <div className='flex items-center justify-between'>
@@ -282,7 +282,9 @@ const Post = ({ item, userId, username, loading, saveds, showComments }) => {
               </>
             )}
           </div>
-          <hr className='dark:border-gray-600 my-1' />
+          {item?.comments?.length >= 1 && (
+            <hr className='dark:border-gray-600 my-1' />
+          )}
           {showComments ? (
             <>
               <Link to={`/post/${item?.id}`} className='text-gray-400 text-sm'>
@@ -296,7 +298,10 @@ const Post = ({ item, userId, username, loading, saveds, showComments }) => {
                 .slice(0, 2)
                 .map((comment) => {
                   return (
-                    <div key={comment?.id} className='flex gap-1 my-2'>
+                    <div
+                      key={comment?.id}
+                      className='flex flex-wrap gap-1 my-2'
+                    >
                       <strong>{comment?.user?.username}:</strong>
                       <p>{comment?.comment}</p>
                     </div>
@@ -304,7 +309,10 @@ const Post = ({ item, userId, username, loading, saveds, showComments }) => {
                 })}
             </>
           ) : (
-            <p>{item?.comments?.length} comments</p>
+            <p className='text-sm'>
+              {item?.comments?.length}{' '}
+              {item?.comments?.length === 1 ? 'comment' : 'comments'}
+            </p>
           )}
         </div>
       </section>

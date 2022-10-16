@@ -10,11 +10,20 @@ const AuthState = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [profilePic, setProfilePic] = useState('');
 
+  const [modalValue, setModalValue] = useState(false);
+  const [confirmValue, setConfirmValue] = useState(false);
+
   const { data } = useFetch('user', `${API_URL}/users/me`, state.user);
 
   useEffect(() => {
     setProfilePic(data?.picture?.url);
   }, [data?.picture?.url]);
+
+  const openModal = () => setModalValue(true);
+  const closeModal = () => setModalValue(false);
+
+  const handleConfirmYes = () => setConfirmValue(true);
+  const handleConfirmNo = () => setConfirmValue(false);
 
   const login = async (loignData) => {
     dispatch({ type: 'LOADING' });
@@ -67,6 +76,12 @@ const AuthState = ({ children }) => {
         register,
         profilePic,
         setProfilePic,
+        modalValue,
+        openModal,
+        closeModal,
+        confirmValue,
+        handleConfirmYes,
+        handleConfirmNo,
       }}
     >
       {children}
