@@ -22,6 +22,7 @@ import {
   unLikeService,
   unSavePostService,
 } from '../services/postService';
+import moment from 'moment';
 
 const Post = ({ item, userId, username, loading, saveds, showComments }) => {
   const [modalIsOpen, setIsModalIsOpen] = useState(false);
@@ -314,6 +315,9 @@ const Post = ({ item, userId, username, loading, saveds, showComments }) => {
               {item?.comments?.length === 1 ? 'comment' : 'comments'}
             </p>
           )}
+          <p className='text-[0.75rem] mt-1 text-gray-400'>
+            {moment(item?.published_at).fromNow()}
+          </p>
         </div>
       </section>
       <LikeModal
