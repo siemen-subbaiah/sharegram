@@ -89,7 +89,7 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
   );
 
   const { mutate: uploadPost, isLoading } = useMutation(uploadPostFunc, {
-    onSuccess: () => queryClient.invalidateQueries('user'),
+    onSuccess: () => queryClient.invalidateQueries('posts'),
   });
 
   const handleFinalUpload = (e) => {
