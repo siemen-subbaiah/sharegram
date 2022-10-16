@@ -20,57 +20,60 @@ const SideBar = () => {
   return (
     <aside className='px-10 py-3 relative bg-white h-[90%] shadow-md dark:bg-gray-800'>
       <ul>
-        <li className='my-16'>
+        <li className='my-14'>
           <Link
             to='/'
             className={`${
-              pathname === '/' && 'btn'
-            } flex items-center w-[7.5rem] gap-2`}
+              pathname === '/' && 'bg-primary rounded-2xl'
+            } flex items-center w-[6.5rem] justify-center gap-2 py-1 px-2`}
           >
             <MdOutlineHome fontSize='1.5rem' />
             <span>Home</span>
           </Link>
         </li>
-        <li className='my-16'>
+        <li className='my-14'>
           <Link
             to='/explore'
             className={`${
-              pathname === '/explore' && 'btn'
-            } flex items-center w-[7.5rem] gap-2`}
+              pathname === '/explore' && 'bg-primary rounded-2xl'
+            } flex items-center w-[6.5rem] justify-center gap-2 py-1 px-2`}
           >
             <MdOutlineExplore fontSize='1.5rem' />
             <span>Explore</span>
           </Link>
         </li>
-        <li className='my-16'>
+        <li className='my-14'>
           <Link
             to='/search'
             className={`${
-              pathname === '/search' && 'btn'
-            } flex items-center w-[7.5rem] gap-2`}
+              pathname === '/search' && 'bg-primary rounded-2xl'
+            } flex items-center w-[6.5rem] justify-center gap-2 py-1 px-2`}
           >
             <MdSearch fontSize='1.5rem' />
             <span>Search</span>
           </Link>
         </li>
-        <li className='my-16'>
+        <li className='my-14'>
           <Link
             to='/profile'
             className={`${
-              pathname === '/profile' && 'btn'
-            } flex items-center w-[7.5rem] gap-2`}
+              pathname === '/profile' && 'bg-primary rounded-2xl'
+            } flex items-center w-[6.5rem] justify-center gap-2 py-1 px-2`}
           >
-            <MdOutlineAccountCircle fontSize='1.5rem' />
+            <MdOutlineAccountCircle
+              fontSize='1.5rem'
+              className='relative right-1'
+            />
 
             <span>Profile</span>
           </Link>
         </li>
-        <li className='my-16'>
+        <li className='my-14'>
           <Link
             to='/account/settings'
             className={`${
-              pathname === '/account/settings' && 'btn'
-            } flex items-center w-[7.5rem] gap-2`}
+              pathname === '/account/settings' && 'bg-primary rounded-2xl'
+            } flex items-center w-[7rem] gap-2 py-1 px-2`}
           >
             <MdOutlineSettings fontSize='1.5rem' />
             <span>Settings</span>

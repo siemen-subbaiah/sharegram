@@ -66,7 +66,7 @@ const SearchComp = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
         <button className='bg-primary text-white p-[0.36rem] rounded-r-md'>
-          SEARCH
+          Search
         </button>
       </form>
 

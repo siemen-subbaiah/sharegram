@@ -37,7 +37,7 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
       if (res.statusText) {
         setImage(null);
         closeModal();
-        navigate(`/post/${res?.data?.id}`);
+        navigate('/');
       }
       return res.data;
     } catch (err) {
@@ -186,31 +186,34 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
                   <span>delete</span>
                 </button>
               </div>
-              <form onSubmit={handleFinalUpload} className='my-5'>
-                <input
+              <form
+                onSubmit={handleFinalUpload}
+                className='mt-2 flex flex-col w-full'
+              >
+                <textarea
                   type='text'
                   name='caption'
                   placeholder='Enter the caption'
-                  className='p-2 shadow-2xl outline-none rounded-l-md text-black'
+                  className='p-2 shadow-2xl outline-none rounded-md text-black'
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
                 />
                 {caption.length >= 1 ? (
                   isLoading === true ? (
                     <button
-                      className='opacity-50 bg-primary p-2 px-4 rounded-r-md text-white'
+                      className='opacity-50 bg-primary p-2 px-4 rounded-md mt-2 text-white'
                       disabled
                     >
                       Post
                     </button>
                   ) : (
-                    <button className='bg-primary p-2 px-4 rounded-r-md text-white'>
+                    <button className='bg-primary p-2 px-4 rounded-md mt-2 text-white'>
                       Post
                     </button>
                   )
                 ) : (
                   <button
-                    className='opacity-50 bg-primary p-2 px-4 rounded-r-md text-white'
+                    className='opacity-50 bg-primary p-2 px-4 rounded-md mt-2 text-white'
                     disabled
                   >
                     Post

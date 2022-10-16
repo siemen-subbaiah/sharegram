@@ -32,7 +32,7 @@ const Posts = () => {
 
   // GET POSTS FROM FOLLOWING ACCOUNT!
   const posts = data?.data?.filter((item) =>
-    following?.includes(item?.user?.id)
+    [data2?.data?.id, ...following]?.includes(item?.user?.id)
   );
 
   return (
