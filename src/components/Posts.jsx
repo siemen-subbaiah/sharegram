@@ -23,12 +23,12 @@ const Posts = () => {
 
   useEffect(() => {
     setRandomUsers(
-      usersList?.data?.sort(() => 0.5 - Math.random()).slice(0, 5)
+      usersList?.data?.sort(() => 0.5 - Math.random())?.slice(0, 5)
     );
   }, [usersList?.isLoading === false]);
 
   // GET LIST OF FOLLOWERS!
-  const following = data2.data?.following?.map((item) => item?.id);
+  const following = data2?.data?.following?.map((item) => item?.id);
 
   // GET POSTS FROM FOLLOWING ACCOUNT!
   const posts = data?.data?.filter((item) =>
