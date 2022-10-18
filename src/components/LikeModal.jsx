@@ -48,6 +48,7 @@ const LikeModal = ({ closeModal, modalIsOpen, likes }) => {
     >
       <h1 className='text-center text-xl mb-5 font-semibold'>Likes</h1>
       {/* <hr /> */}
+      {likes?.length === 0 && <p className='text-xl text-center'>No Likes</p>}
       {likes?.map((item) => {
         return (
           <Link
