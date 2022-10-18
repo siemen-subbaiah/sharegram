@@ -25,21 +25,21 @@ import {
 import moment from 'moment';
 
 const Post = ({ item, userId, username, loading, saveds, showComments }) => {
+  const { user: token } = useContext(AuthContext);
+
   const [modalIsOpen, setIsModalIsOpen] = useState(false);
   const [shareModalIsOpen, setShareIsModalIsOpen] = useState(false);
   const [moreModalIsOpen, setMoreModalIsOpen] = useState(false);
+
+  const [caption, setCaption] = useState('');
+  const [captionEdit, setCaptionEdit] = useState(false);
 
   const closeModal = () => setIsModalIsOpen(false);
   const closeShareModal = () => setShareIsModalIsOpen(false);
   const closeMoreModal = () => setMoreModalIsOpen(false);
 
-  const [caption, setCaption] = useState('');
-  const [captionEdit, setCaptionEdit] = useState(false);
-
   const checkLiked = item?.likes.find((item) => item?.user?.id === userId);
   const checkSaved = saveds?.find((fi) => fi?.post?.id === item?.id);
-
-  const { user: token } = useContext(AuthContext);
 
   const captionEdittFunc = async (theData) => {
     try {

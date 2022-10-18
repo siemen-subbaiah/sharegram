@@ -9,8 +9,12 @@ import { AuthContext } from '../context/AuthState';
 import Post from './Post';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQueryClient } from 'react-query';
-import axios from 'axios';
 import Confirm from './Confirm';
+import {
+  addCommentService,
+  deleteCommentService,
+  editCommentService,
+} from '../services/detailedPostService';
 
 const DetailedPost = () => {
   const [comment, setComment] = useState('');
@@ -35,85 +39,50 @@ const DetailedPost = () => {
 
   const arrData = data?.data || [];
 
-  const commentFunc = async (theData) => {
-    try {
-      const res = await axios.post(`${API_URL}/comments`, theData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return err;
-    }
-  };
-
-  const editCommentFunc = async (theData) => {
-    try {
-      const res = await axios.put(`${API_URL}/comments/${editId}`, theData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return err;
-    }
-  };
-
-  const deleteCommentFunc = async (editDId) => {
-    try {
-      const res = await axios.delete(`${API_URL}/comments/${editDId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return err;
-    }
-  };
-
   const queryClient = useQueryClient();
 
-  const { mutate: commentNow, isLoading } = useMutation(commentFunc, {
+  const { mutate: commentNow, isLoading } = useMutation(addCommentService, {
     onSuccess: () => queryClient.invalidateQueries(['posts', id]),
   });
 
   const { mutate: editComment, isLoading: editLoading } = useMutation(
-    editCommentFunc,
+    editCommentService,
     {
       onSuccess: () => queryClient.invalidateQueries(['posts', id]),
     }
   );
 
-  const { mutate: deleteComment } = useMutation(deleteCommentFunc, {
+  const { mutate: deleteComment } = useMutation(deleteCommentService, {
     onSuccess: () => queryClient.invalidateQueries(['posts', id]),
   });
 
   const handleCommenting = (e) => {
     e.preventDefault();
-    editing
-      ? editComment({
-          comment,
-          username: data2.data?.username,
-          user: {
-            id: data2.data?.id,
-          },
-          post: {
-            id: arrData[0]?.id,
-          },
-        })
-      : commentNow({
-          comment,
-          username: data2.data?.username,
-          user: {
-            id: data2.data?.id,
-          },
-          post: {
-            id: arrData[0]?.id,
-          },
-        });
+    if (editing) {
+      const data = {
+        comment,
+        username: data2.data?.username,
+        user: {
+          id: data2.data?.id,
+        },
+        post: {
+          id: arrData[0]?.id,
+        },
+      };
+      editComment({ id: editId, data, token });
+    } else {
+      const data = {
+        comment,
+        username: data2.data?.username,
+        user: {
+          id: data2.data?.id,
+        },
+        post: {
+          id: arrData[0]?.id,
+        },
+      };
+      commentNow({ data, token });
+    }
     setComment('');
     setEditing(false);
     setEditId(false);
@@ -134,7 +103,7 @@ const DetailedPost = () => {
 
   useEffect(() => {
     if (confirmValue) {
-      deleteComment(deleteId);
+      deleteComment({ id: deleteId, token });
       handleConfirmNo();
       closeModal();
     }

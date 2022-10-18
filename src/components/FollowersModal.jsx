@@ -21,6 +21,8 @@ const FollowersModal = ({ closeModal, modalIsOpen, followers }) => {
       right: 'auto',
       bottom: 'auto',
       marginRight: '-50%',
+      height: '300px',
+      borderRadius: '5px',
       transform: 'translate(-50%, -50%)',
       width: `${windowWidth <= 500 ? '90%' : '20%'}`,
       backgroundColor: themeColor === 'dark' ? '#1F2937' : 'white',
