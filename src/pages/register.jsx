@@ -92,7 +92,7 @@ const RegisterPage = () => {
             <div className='md:flex justify-around gap-5'>
               <div className='my-5 flex w-full border'>
                 <a
-                  href='https://sharegram-backend.herokuapp.com/connect/github'
+                  href='https://sharegram-backend-production.up.railway.app/connect/github'
                   className='text-center py-2 px-5 w-full rounded-md flex items-center gap-5 justify-center'
                 >
                   <img
@@ -106,7 +106,7 @@ const RegisterPage = () => {
               </div>
               <div className='my-5 flex w-full border'>
                 <a
-                  href='https://sharegram-backend.herokuapp.com/connect/google'
+                  href='https://sharegram-backend-production.up.railway.app/connect/google'
                   className='text-center py-2 px-5 w-full rounded-md flex items-center gap-5 justify-center'
                 >
                   <img
