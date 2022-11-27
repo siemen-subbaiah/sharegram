@@ -39,7 +39,8 @@ const MoreModal = ({ closeModal, modalIsOpen, postId, photoId }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (res.statusText) {
+      console.log(res);
+      if (res.data) {
         closeModal();
         navigate('/profile');
       }

@@ -15,7 +15,9 @@ export const useFetch = (key, url, token) => {
     }
   };
 
-  const { data, error, isLoading } = useQuery(key, getData);
+  const { data, error, isLoading } = useQuery(key, getData, {
+    refetchOnWindowFocus: false,
+  });
 
   return { data, error, isLoading };
 };

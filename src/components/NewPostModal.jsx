@@ -34,7 +34,7 @@ const NewPostModal = ({ closeModal, modalIsOpen }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (res.statusText) {
+      if (res.data) {
         setImage(null);
         closeModal();
         navigate('/');

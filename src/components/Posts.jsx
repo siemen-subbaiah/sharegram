@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import Post from '../components/Post';
 import { API_URL } from '../config';
 import { AuthContext } from '../context/AuthState';
@@ -34,7 +34,6 @@ const Posts = () => {
   const posts = data?.data?.filter((item) =>
     [data2?.data?.id, ...following]?.includes(item?.user?.id)
   );
-
   return (
     <>
       {data.isLoading && (
